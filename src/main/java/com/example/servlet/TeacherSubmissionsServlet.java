@@ -1,5 +1,6 @@
 package com.example.servlet;
 
+import com.example.dao.HomeworkDAO;
 import com.example.dao.SubmissionDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -29,12 +30,17 @@ public class TeacherSubmissionsServlet extends BaseServlet {
 
         try {
             int homeworkId = Integer.parseInt(hwParam);
-            SubmissionDAO dao = new SubmissionDAO();
+            SubmissionDAO submissionDAO = new SubmissionDAO();
+            HomeworkDAO homeworkDAO = new HomeworkDAO();
 
-            List<Map<String, Object>> submissions = dao.getAllStudentsSubmissionStatus(homeworkId);
+            List<Map<String, Object>> submissions = submissionDAO.getAllStudentsSubmissionStatus(homeworkId);
+            Map<String, Object> homework = homeworkDAO.getHomeworkById(homeworkId);
+            String homeworkTitle = (homework != null) ? (String) homework.get("title") : "Unknown";
+
 
             req.setAttribute("submissions", submissions);
             req.setAttribute("homeworkId", homeworkId);
+            req.setAttribute("homeworkTitle", homeworkTitle);
 
         } catch (NumberFormatException e) {
             req.setAttribute("error", "Invalid Homework ID.");

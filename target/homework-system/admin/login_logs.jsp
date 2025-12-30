@@ -27,7 +27,6 @@
                         <th>Username</th>
                         <th>Role</th>
                         <th>Login Time</th>
-                        <th>IP Address</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,7 +45,6 @@
                                     <td>
                                         <fmt:formatDate value="${log.loginTime}" pattern="yyyy-MM-dd HH:mm:ss" />
                                     </td>
-                                    <td>${log.ipAddress}</td>
                                 </tr>
                             </c:forEach>
                         </c:otherwise>

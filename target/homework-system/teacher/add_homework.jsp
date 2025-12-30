@@ -1,122 +1,67 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page session="true" %>
-<%@ page import="java.util.*" %>
-<%@ page import="java.sql.Timestamp" %>
-<%@ page import="com.example.model.User" %>
-<%@ page import="com.example.dao.HomeworkDAO" %>
-<%@ page import="com.example.dao.CourseDAO" %>
-
-<%
-    // =========================
-    // AUTH CHECK
-    // =========================
-    User teacher = (User) session.getAttribute("user");
-    if (teacher == null || !"teacher".equals(teacher.getRole())) {
-        response.sendRedirect("../login.jsp");
-        return;
-    }
-
-    HomeworkDAO hwDAO = new HomeworkDAO();
-    CourseDAO courseDAO = new CourseDAO();
-
-    // =========================
-    // HANDLE POST (CREATE)
-    // =========================
-    if ("POST".equalsIgnoreCase(request.getMethod())) {
-
-        int courseId =
-            Integer.parseInt(request.getParameter("courseId"));
-
-        String title =
-            request.getParameter("title");
-
-        String description =
-            request.getParameter("description");
-
-        String difficulty =
-            request.getParameter("difficulty");
-
-        String format =
-            request.getParameter("format");
-
-        String deadlineStr =
-            request.getParameter("deadline");
-
-        Timestamp deadline =
-            Timestamp.valueOf(deadlineStr.replace("T", " ") + ":00");
-
-        hwDAO.createHomework(
-            teacher.getUserId(),
-            courseId,
-            title,
-            description,
-            difficulty,
-            deadline,
-            format
-        );
-
-        response.sendRedirect("homework");
-        return;
-    }
-
-    // =========================
-    // LOAD COURSES FOR DROPDOWN
-    // =========================
-    List<Map<String,Object>> courses =
-        courseDAO.getCoursesByTeacher(teacher.getUserId());
-%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <%@ include file="../layout/header.jsp" %>
 
-<h1>Create Homework</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Create New Homework</h2>
+    <a href="${pageContext.request.contextPath}/teacher/homework" class="btn btn-secondary btn-hover">
+        <i class="bi bi-arrow-left me-1"></i>
+        Back to Homework List
+    </a>
+</div>
 
-<form method="post">
+<div class="card">
+    <div class="card-body">
+        <form method="post" action="${pageContext.request.contextPath}/teacher/add-homework">
+            <div class="mb-3">
+                <label for="courseId" class="form-label">Course</label>
+                <select id="courseId" name="courseId" class="form-select" required>
+                    <option value="" disabled selected>-- Select a Course --</option>
+                    <c:forEach var="course" items="${courses}">
+                        <option value="${course.courseId}">${course.courseName}</option>
+                    </c:forEach>
+                </select>
+            </div>
 
-    <!-- COURSE -->
-    <label>Course:</label><br>
-    <select name="courseId" required>
-        <option value="">-- Select Course --</option>
-        <% for (Map<String,Object> c : courses) { %>
-            <option value="<%= c.get("courseId") %>">
-                <%= c.get("courseName") %>
-            </option>
-        <% } %>
-    </select>
-    <br><br>
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" id="title" name="title" class="form-control" required>
+            </div>
 
-    <!-- TITLE -->
-    <label>Title:</label><br>
-    <input type="text" name="title" required>
-    <br><br>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea id="description" name="description" class="form-control" rows="5" required></textarea>
+            </div>
 
-    <!-- DESCRIPTION -->
-    <label>Description:</label><br>
-    <textarea name="description" rows="4" cols="50"></textarea>
-    <br><br>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="difficulty" class="form-label">Difficulty</label>
+                    <select id="difficulty" name="difficulty" class="form-select">
+                        <option>Easy</option>
+                        <option selected>Medium</option>
+                        <option>Hard</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="format" class="form-label">Allowed File Formats</label>
+                    <input type="text" id="format" name="format" class="form-control" placeholder="e.g., pdf, zip, docx" required>
+                </div>
+            </div>
 
-    <!-- DIFFICULTY -->
-    <label>Difficulty:</label><br>
-    <select name="difficulty">
-        <option value="Easy">Easy</option>
-        <option value="Medium">Medium</option>
-        <option value="Hard">Hard</option>
-    </select>
-    <br><br>
+            <div class="mb-4">
+                <label for="deadline" class="form-label">Deadline</label>
+                <input type="datetime-local" id="deadline" name="deadline" class="form-control" required>
+            </div>
 
-    <!-- DEADLINE -->
-    <label>Deadline:</label><br>
-    <input type="datetime-local" name="deadline" required>
-    <br><br>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary btn-lg btn-hover">
+                    <i class="bi bi-plus-circle me-1"></i>
+                    Create Homework
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 
-    <!-- FILE FORMAT -->
-    <label>Allowed File Format:</label><br>
-    <input type="text" name="format"
-           placeholder="pdf,zip,docx" required>
-    <br><br>
-
-    <button type="submit">Create Homework</button>
-</form>
-
-<br>
-<a href="${pageContext.request.contextPath}/teacher/homework">Back to Manage Homework</a>
 <%@ include file="../layout/footer.jsp" %>

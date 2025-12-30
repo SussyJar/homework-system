@@ -222,17 +222,57 @@ public class HomeworkDAO {
     // TEACHER: delete homework
     // =========================
     public void deleteHomework(int homeworkId) {
+        String deleteRemindersSql = "DELETE FROM homework_reminders WHERE homework_id = ?";
+        String deleteSubmissionsSql = "DELETE FROM submissions WHERE homework_id = ?";
+        String deleteHomeworkSql = "DELETE FROM homework WHERE homework_id = ?";
 
-        String sql = "DELETE FROM homework WHERE homework_id = ?";
+        Connection conn = null;
+        try {
+            conn = DBConnection.getConnection();
+            // Start transaction
+            conn.setAutoCommit(false);
 
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+            // 1. Delete reminders
+            try (PreparedStatement psReminders = conn.prepareStatement(deleteRemindersSql)) {
+                psReminders.setInt(1, homeworkId);
+                psReminders.executeUpdate();
+            }
 
-            ps.setInt(1, homeworkId);
-            ps.executeUpdate();
+            // 2. Delete submissions
+            try (PreparedStatement psSubmissions = conn.prepareStatement(deleteSubmissionsSql)) {
+                psSubmissions.setInt(1, homeworkId);
+                psSubmissions.executeUpdate();
+            }
+
+            // 3. Delete homework
+            try (PreparedStatement psHomework = conn.prepareStatement(deleteHomeworkSql)) {
+                psHomework.setInt(1, homeworkId);
+                psHomework.executeUpdate();
+            }
+
+            // If all deletions were successful, commit the transaction
+            conn.commit();
 
         } catch (Exception e) {
             e.printStackTrace();
+            // If any error occurred, roll back the transaction
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        } finally {
+            // End transaction and close connection
+            if (conn != null) {
+                try {
+                    conn.setAutoCommit(true);
+                    conn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

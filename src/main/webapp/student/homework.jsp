@@ -167,27 +167,26 @@ document.getElementById('reminderForm').addEventListener('submit', function(e) {
 
     const homeworkId = document.getElementById('reminderHomeworkId').value;
     const remindAt = document.getElementById('remindAt').value;
-    const remindAtISO = new Date(remindAt).toISOString().slice(0, 19).replace('T', ' ');
 
     fetch('${pageContext.request.contextPath}/api/student/reminder', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: 'homeworkId=' + homeworkId + '&remindAt=' + encodeURIComponent(remindAtISO)
+        body: 'homeworkId=' + homeworkId + '&remindAt=' + encodeURIComponent(remindAt)
     })
     .then(response => response.json())
     .then(data => {
         const messageDiv = document.getElementById('reminderMessage');
         messageDiv.classList.remove('d-none', 'alert-success', 'alert-danger');
 
-        if (data.success) {
+        if (data.status === "success") { // Check for "status" field
             messageDiv.classList.add('alert-success');
-            messageDiv.innerText = 'Reminder set successfully!';
+            messageDiv.innerText = data.message; // Use message from response
             setTimeout(() => reminderModal.hide(), 1500);
         } else {
             messageDiv.classList.add('alert-danger');
-            messageDiv.innerText = 'Error: ' + data.message;
+            messageDiv.innerText = 'Error: ' + (data.message || 'Unknown error');
         }
     })
     .catch(error => {

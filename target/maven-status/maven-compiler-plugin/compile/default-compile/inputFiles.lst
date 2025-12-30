@@ -35,6 +35,8 @@ e:\POLINEMA\Semester 7\Web Programming II\homework-system\src\main\java\com\exam
 e:\POLINEMA\Semester 7\Web Programming II\homework-system\src\main\java\com\example\servlet\StudentSubmissionsServlet.java
 e:\POLINEMA\Semester 7\Web Programming II\homework-system\src\main\java\com\example\servlet\StudentSubmitHomeworkServlet.java
 e:\POLINEMA\Semester 7\Web Programming II\homework-system\src\main\java\com\example\servlet\SubmitHomeworkServlet.java
+e:\POLINEMA\Semester 7\Web Programming II\homework-system\src\main\java\com\example\servlet\TeacherAddHomeworkServlet.java
+e:\POLINEMA\Semester 7\Web Programming II\homework-system\src\main\java\com\example\servlet\TeacherEditHomeworkServlet.java
 e:\POLINEMA\Semester 7\Web Programming II\homework-system\src\main\java\com\example\servlet\TeacherHomeworkServlet.java
 e:\POLINEMA\Semester 7\Web Programming II\homework-system\src\main\java\com\example\servlet\TeacherOverviewServlet.java
 e:\POLINEMA\Semester 7\Web Programming II\homework-system\src\main\java\com\example\servlet\TeacherProfileServlet.java

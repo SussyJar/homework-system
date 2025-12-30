@@ -277,6 +277,43 @@ public class SubmissionDAO {
     return null;
     }
 
+    public Map<String, Object> getSubmissionDetailsById(int submissionId) {
+        String sql = """
+            SELECT
+                s.submission_id, s.homework_id, s.student_id,
+                s.submit_time, s.file_path, s.score, s.feedback,
+                h.title AS homework_title,
+                u.name AS student_name
+            FROM submissions s
+            JOIN homework h ON s.homework_id = h.homework_id
+            JOIN users u ON s.student_id = u.user_id
+            WHERE s.submission_id = ?
+        """;
 
+        try (Connection conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
 
+            ps.setInt(1, submissionId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                Map<String, Object> details = new HashMap<>();
+                details.put("submissionId", rs.getInt("submission_id"));
+                details.put("homeworkId", rs.getInt("homework_id"));
+                details.put("studentId", rs.getInt("student_id"));
+                details.put("submitTime", rs.getTimestamp("submit_time"));
+                details.put("filePath", rs.getString("file_path"));
+                details.put("score", rs.getObject("score"));
+                details.put("feedback", rs.getString("feedback"));
+                details.put("homeworkTitle", rs.getString("homework_title"));
+                details.put("studentName", rs.getString("student_name"));
+                return details;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

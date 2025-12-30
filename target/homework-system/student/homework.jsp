@@ -4,7 +4,7 @@
 <%@ include file="../layout/header.jsp" %>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Homework Assignmentstttttt</h2>
+    <h2>Homework Assignment</h2>
     <a href="${pageContext.request.contextPath}/student/courses" class="btn btn-outline-secondary">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
@@ -167,27 +167,26 @@ document.getElementById('reminderForm').addEventListener('submit', function(e) {
 
     const homeworkId = document.getElementById('reminderHomeworkId').value;
     const remindAt = document.getElementById('remindAt').value;
-    const remindAtISO = new Date(remindAt).toISOString().slice(0, 19).replace('T', ' ');
 
     fetch('${pageContext.request.contextPath}/api/student/reminder', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: 'homeworkId=' + homeworkId + '&remindAt=' + encodeURIComponent(remindAtISO)
+        body: 'homeworkId=' + homeworkId + '&remindAt=' + encodeURIComponent(remindAt)
     })
     .then(response => response.json())
     .then(data => {
         const messageDiv = document.getElementById('reminderMessage');
         messageDiv.classList.remove('d-none', 'alert-success', 'alert-danger');
 
-        if (data.success) {
+        if (data.status === "success") { // Check for "status" field
             messageDiv.classList.add('alert-success');
-            messageDiv.innerText = 'Reminder set successfully!';
+            messageDiv.innerText = data.message; // Use message from response
             setTimeout(() => reminderModal.hide(), 1500);
         } else {
             messageDiv.classList.add('alert-danger');
-            messageDiv.innerText = 'Error: ' + data.message;
+            messageDiv.innerText = 'Error: ' + (data.message || 'Unknown error');
         }
     })
     .catch(error => {

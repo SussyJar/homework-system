@@ -1,71 +1,64 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page session="true" %>
-<%@ page import="java.util.*" %>
-<%@ page import="java.sql.Timestamp" %>
-<%@ page import="com.example.model.User" %>
-<%@ page import="com.example.dao.HomeworkDAO" %>
-
-<%
-    User teacher = (User) session.getAttribute("user");
-    if (teacher == null || !"teacher".equals(teacher.getRole())) {
-        response.sendRedirect("../login.jsp");
-        return;
-    }
-
-    int id = Integer.parseInt(request.getParameter("id"));
-    HomeworkDAO dao = new HomeworkDAO();
-
-    if ("POST".equalsIgnoreCase(request.getMethod())) {
-
-        String deadlineStr = request.getParameter("deadline");
-        deadlineStr = deadlineStr.replace("T", " ") + ":00";
-        Timestamp deadline = Timestamp.valueOf(deadlineStr);
-
-        dao.updateHomework(
-            id,
-            request.getParameter("title"),
-            request.getParameter("description"),
-            request.getParameter("difficulty"),
-            deadline,
-            request.getParameter("format")
-        );
-
-        response.sendRedirect("homework");
-        return;
-    }
-
-    Map<String, Object> h = dao.getHomeworkById(id);
-%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <%@ include file="../layout/header.jsp" %>
 
-<h2>Edit Homework</h2>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Edit Homework</h2>
+    <a href="${pageContext.request.contextPath}/teacher/homework" class="btn btn-secondary btn-hover">
+        <i class="bi bi-arrow-left me-1"></i>
+        Back to Homework List
+    </a>
+</div>
 
-<form method="post">
-    Title:<br>
-    <input type="text" name="title"
-           value="<%= h.get("title") %>" required><br><br>
+<c:if test="${not empty error}">
+    <div class="alert alert-danger">${error}</div>
+</c:if>
 
-    Description:<br>
-    <textarea name="description" rows="4" cols="40"
-              required><%= h.get("description") %></textarea><br><br>
+<c:if test="${not empty homework}">
+    <div class="card">
+        <div class="card-header">
+            Editing: <span class="fw-bold text-primary">${homework.title}</span>
+        </div>
+        <div class="card-body">
+            <form method="post" action="${pageContext.request.contextPath}/teacher/edit-homework">
+                <input type="hidden" name="id" value="${homework.homeworkId}">
 
-    Difficulty:<br>
-    <input type="text" name="difficulty"
-           value="<%= h.get("difficulty") %>" required><br><br>
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" id="title" name="title" class="form-control" value="<c:out value='${homework.title}'/>" required>
+                </div>
 
-    Deadline:<br>
-    <input type="datetime-local" name="deadline"
-           value="<%= h.get("deadline").toString().replace(" ", "T").substring(0,16) %>"
-           required><br><br>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea id="description" name="description" class="form-control" rows="5" required><c:out value='${homework.description}'/></textarea>
+                </div>
 
-    Format:<br>
-    <input type="text" name="format"
-           value="<%= h.get("format") %>" required><br><br>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="difficulty" class="form-label">Difficulty</label>
+                        <input type="text" id="difficulty" name="difficulty" class="form-control" value="<c:out value='${homework.difficulty}'/>" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="format" class="form-label">Allowed File Format (e.g., pdf, zip)</label>
+                        <input type="text" id="format" name="format" class="form-control" value="<c:out value='${homework.format}'/>" required>
+                    </div>
+                </div>
 
-    <button type="submit">Update</button>
-</form>
+                <div class="mb-4">
+                    <label for="deadline" class="form-label">Deadline</label>
+                    <input type="datetime-local" id="deadline" name="deadline" class="form-control" value="${homework.formattedDeadline}" required>
+                </div>
 
-<br>
-<a href="${pageContext.request.contextPath}/teacher/homework">Back</a>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button type="submit" class="btn btn-primary btn-hover px-4">
+                        <i class="bi bi-save me-1"></i>
+                        Update Homework
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</c:if>
+
 <%@ include file="../layout/footer.jsp" %>

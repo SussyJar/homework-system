@@ -25,6 +25,7 @@ com\example\model\Homework.class
 com\example\servlet\AdminEditUserServlet.class
 com\example\servlet\ViewReminderServlet.class
 com\example\servlet\StudentSubmitHomeworkServlet.class
+com\example\servlet\TeacherAddHomeworkServlet.class
 com\example\servlet\StudentSubmissionHistoryServlet.class
 com\example\servlet\StudentSubmissionServlet.class
 com\example\filter\EncodingFilter.class
@@ -41,5 +42,6 @@ com\example\filter\AuthFilter.class
 com\example\model\HomeworkReminder.class
 com\example\servlet\AdminAssignTeacherServlet.class
 com\example\servlet\ChangePasswordServlet.class
+com\example\servlet\TeacherEditHomeworkServlet.class
 com\example\dao\CourseDAO.class
 com\example\servlet\TeacherHomeworkServlet.class

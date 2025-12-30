@@ -30,8 +30,8 @@ public class SetReminderServlet extends BaseServlet {
             int homeworkId = Integer.parseInt(request.getParameter("homeworkId"));
             String remindAtStr = request.getParameter("remindAt");
 
-            // Parse datetime (format: "2025-12-30 15:30:00")
-            LocalDateTime remindAt = LocalDateTime.parse(remindAtStr.replace(" ", "T"));
+            // Parse datetime (format: "YYYY-MM-DDTHH:mm")
+            LocalDateTime remindAt = LocalDateTime.parse(remindAtStr);
 
             // ===== SAVE REMINDER =====
             HomeworkReminderDAO dao = new HomeworkReminderDAO();
