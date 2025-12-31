@@ -1,27 +1,26 @@
 package com.example.servlet;
 
-import com.example.model.User;
-
-// DAO imports
-import com.example.dao.CourseDAO;
-import com.example.dao.HomeworkDAO;
-import com.example.dao.SubmissionDAO;
-import com.example.dao.TeacherDashboardDAO;
-
-// Jakarta Servlet imports
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
-// Java util & sql
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
+import com.example.model.User;
+import com.example.dao.CourseDAO;
+import com.example.dao.HomeworkDAO;
+import com.example.dao.SubmissionDAO;
+import com.example.dao.TeacherDashboardDAO;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+
+
 @WebServlet("/dashboard")
-public class DashboardServlet extends BaseServlet {
+public class DashboardServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

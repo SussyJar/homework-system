@@ -1,19 +1,22 @@
 package com.example.servlet;
 
-import com.example.dao.CourseDAO;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import com.example.dao.CourseDAO;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 
 /**
  * AdminCoursesServlet - Controller untuk manage courses
  */
 @WebServlet("/admin/courses")
-public class AdminCoursesServlet extends BaseServlet {
+public class AdminCoursesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

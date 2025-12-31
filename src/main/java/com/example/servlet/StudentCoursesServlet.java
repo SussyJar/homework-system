@@ -1,20 +1,20 @@
 package com.example.servlet;
 
-import com.example.dao.CourseDAO;
-import com.example.model.User;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-/**
- * StudentCoursesServlet - Controller untuk student view courses
- */
+import com.example.dao.CourseDAO;
+import com.example.model.User;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 @WebServlet("/student/courses")
-public class StudentCoursesServlet extends BaseServlet {
+public class StudentCoursesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

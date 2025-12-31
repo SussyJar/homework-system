@@ -1,18 +1,22 @@
 package com.example.servlet;
 
+import java.io.IOException;
+
 import com.example.model.User;
 import com.example.dao.UserDAO;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
 
 /**
  * TeacherProfileServlet - Handles teacher profile management
  */
 @WebServlet("/teacher/profile")
-public class TeacherProfileServlet extends BaseServlet {
+public class TeacherProfileServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

@@ -1,20 +1,23 @@
 package com.example.servlet;
 
-import com.example.dao.HomeworkDAO;
-import com.example.dao.SubmissionDAO;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import com.example.dao.HomeworkDAO;
+import com.example.dao.SubmissionDAO;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * TeacherSubmissionsServlet - Controller untuk view student submissions
  */
 @WebServlet("/teacher/submissions")
-public class TeacherSubmissionsServlet extends BaseServlet {
+public class TeacherSubmissionsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

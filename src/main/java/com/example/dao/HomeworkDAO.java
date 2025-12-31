@@ -356,6 +356,50 @@ public class HomeworkDAO {
         return -1;
     }
 
-    
+    public List<Map<String, Object>> getAllHomeworkByStudent(int studentId) {
+    List<Map<String, Object>> list = new ArrayList<>();
+
+    String sql = """
+        SELECT 
+          c.course_id,
+          c.course_name,
+          h.homework_id,
+          h.title,
+          h.deadline,
+          s.status
+        FROM enrollments e
+        JOIN courses c ON e.course_id = c.course_id
+        JOIN homework h ON c.course_id = h.course_id
+        LEFT JOIN submissions s
+          ON s.homework_id = h.homework_id
+         AND s.student_id = e.student_id
+        WHERE e.student_id = ?
+        ORDER BY h.deadline ASC
+    """;
+
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setInt(1, studentId);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Map<String, Object> row = new HashMap<>();
+            row.put("courseId", rs.getInt("course_id"));
+            row.put("courseName", rs.getString("course_name"));
+            row.put("homeworkId", rs.getInt("homework_id"));
+            row.put("title", rs.getString("title"));
+            row.put("deadline", rs.getTimestamp("deadline"));
+            row.put("status", rs.getString("status")); // bisa null
+
+            list.add(row);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return list;
+}
+
 
 }

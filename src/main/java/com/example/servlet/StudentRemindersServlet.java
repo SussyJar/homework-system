@@ -1,19 +1,23 @@
 package com.example.servlet;
 
-import com.example.model.User;
-import com.example.dao.HomeworkReminderDAO;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+
+import com.example.model.User;
+import com.example.dao.HomeworkReminderDAO;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 
 /**
  * StudentRemindersServlet - Shows upcoming reminders for student
  */
 @WebServlet("/student/reminders")
-public class StudentRemindersServlet extends BaseServlet {
+public class StudentRemindersServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

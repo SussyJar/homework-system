@@ -87,7 +87,7 @@
                     </svg>
                 </div>
                 <h5 class="card-title">Browse Homework</h5>
-                <p class="card-text text-muted small">View homework assignments by course</p>
+                <p class="card-text text-muted small">View homework assignments all</p>
                 <a href="${pageContext.request.contextPath}/student/homework" class="btn btn-primary w-100">Go</a>
             </div>
         </div>

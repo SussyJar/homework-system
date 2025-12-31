@@ -1,21 +1,24 @@
 package com.example.servlet;
 
-import com.example.dao.HomeworkDAO;
-import com.example.dao.SubmissionDAO;
-import com.example.model.User;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import com.example.dao.HomeworkDAO;
+import com.example.dao.SubmissionDAO;
+import com.example.model.User;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * StudentHomeworkListServlet - Controller untuk student view homework list
  */
 @WebServlet("/student/homework")
-public class StudentHomeworkListServlet extends BaseServlet {
+public class StudentHomeworkListServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

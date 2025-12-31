@@ -1,20 +1,24 @@
 package com.example.servlet;
 
-import com.example.model.User;
-import com.example.dao.SubmissionDAO;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import com.example.model.User;
+import com.example.dao.SubmissionDAO;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 
 /**
  * StudentSubmissionHistoryServlet - Shows all submissions by student across all courses
  */
 @WebServlet("/student/submission_history")
-public class StudentSubmissionHistoryServlet extends BaseServlet {
+public class StudentSubmissionHistoryServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

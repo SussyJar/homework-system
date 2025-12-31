@@ -11,8 +11,6 @@ CREATE TABLE users (
     status ENUM('active','disabled') DEFAULT 'active'
 );
 
-ALTER TABLE users
-ADD COLUMN email VARCHAR(100);
 
 SELECT * FROM homework;
 
@@ -28,16 +26,9 @@ CREATE TABLE login_logs (
     log_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     login_time DATETIME DEFAULT CURRENT_TIMESTAMP,
-    ip_address VARCHAR(50),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
-ALTER TABLE login_logs
-DROP COLUMN role,
-ADD COLUMN ip_address VARCHAR(50);
-
-ALTER TABLE login_logs
-CHANGE ip_address role VARCHAR(20);
 UPDATE login_logs
 SET role = TRIM(role);
 DESCRIBE login_logs;
@@ -66,6 +57,9 @@ FROM users
 WHERE role = 'student';
 
 DESC courses;
+DESC homework;
+DESC submissions;
+
 
 CREATE TABLE courses_users (
     course_id INT,
@@ -96,26 +90,8 @@ CREATE TABLE homework (
 );
 
 DESCRIBE homework;
-
-CREATE TABLE grading_rubric_items (
-    item_id INT AUTO_INCREMENT PRIMARY KEY,
-    rubric_id INT NOT NULL,
-    criteria VARCHAR(100) NOT NULL,
-    max_score INT NOT NULL,
-
-    FOREIGN KEY (rubric_id) REFERENCES grading_rubrics(rubric_id)
-);
-
-CREATE TABLE submission_scores (
-    submission_id INT NOT NULL,
-    item_id INT NOT NULL,
-    score INT NOT NULL,
-
-    PRIMARY KEY (submission_id, item_id),
-    FOREIGN KEY (submission_id) REFERENCES submissions(submission_id),
-    FOREIGN KEY (item_id) REFERENCES grading_rubric_items(item_id)
-);
-
+DESCRIBE courses;
+Describe courses_users;
 
 CREATE TABLE submissions (
     submission_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -157,20 +133,6 @@ CREATE TABLE homework_reminders (
 
 DESCRIBE submissions;
 
-
-CREATE TABLE grading_rubrics (
-    rubric_id INT AUTO_INCREMENT PRIMARY KEY,
-    homework_id INT NOT NULL,
-    rubric_text TEXT NOT NULL,
-
-    FOREIGN KEY (homework_id) REFERENCES homework(homework_id)
-);
-ALTER TABLE grading_rubrics
-ADD COLUMN title VARCHAR(100) NOT NULL DEFAULT 'Default Rubric';
-UPDATE grading_rubrics
-SET title = LEFT(rubric_text, 100);
-ALTER TABLE grading_rubrics
-DROP COLUMN rubric_text;
 
 
 
