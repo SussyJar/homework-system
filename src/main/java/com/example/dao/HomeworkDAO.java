@@ -390,7 +390,7 @@ public class HomeworkDAO {
             row.put("homeworkId", rs.getInt("homework_id"));
             row.put("title", rs.getString("title"));
             row.put("deadline", rs.getTimestamp("deadline"));
-            row.put("status", rs.getString("status")); // bisa null
+            row.put("status", rs.getString("status"));
 
             list.add(row);
         }

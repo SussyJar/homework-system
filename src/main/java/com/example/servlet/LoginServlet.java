@@ -6,6 +6,7 @@ import com.example.dao.UserDAO;
 import com.example.dao.LoginLogDAO;
 import com.example.model.User;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServlet;
@@ -17,6 +18,14 @@ import jakarta.servlet.http.HttpSession;
 public class LoginServlet extends HttpServlet {
 
     @Override
+    
+     protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        request.getRequestDispatcher("/login.jsp")
+               .forward(request, response);
+    }
+    
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
@@ -46,7 +55,19 @@ public class LoginServlet extends HttpServlet {
             // =========================
             // 3. REDIRECT TO DASHBOARD
             // =========================
-            response.sendRedirect(request.getContextPath() + "/dashboard");
+            String contextPath = request.getContextPath();
+            switch (user.getRole()) {
+                case "admin":
+                    response.sendRedirect(contextPath + "/admin");
+                    break;
+                case "teacher":
+                    response.sendRedirect(contextPath + "/teacher");
+                    break;
+                default:
+                    response.sendRedirect(contextPath + "/student");
+            }
+        
+
 
         } else {
             response.sendRedirect(

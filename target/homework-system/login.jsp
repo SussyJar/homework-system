@@ -1,18 +1,18 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
-<%@ include file="../layout/header.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Login | Homework System</title>
 
     <!-- Bootstrap LOCAL -->
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/bootstrap.min.css">
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 
 <body class="bg-light">
 
+<%@ include file="../layout/header.jsp" %>
 
 <!-- LOGIN FORM -->
 <div class="container d-flex justify-content-center align-items-center"
@@ -25,7 +25,15 @@
                 Login
             </h4>
 
-            <form method="post" action="login">
+            <!-- ERROR MESSAGE -->
+            <c:if test="${param.error == 1}">
+                <div class="alert alert-danger text-center">
+                    Username atau password salah
+                </div>
+            </c:if>
+
+            <form method="post"
+                  action="${pageContext.request.contextPath}/login">
 
                 <!-- USERNAME -->
                 <div class="mb-3">
@@ -62,6 +70,7 @@
     </div>
 </div>
 
+<%@ include file="../layout/footer.jsp" %>
+
 </body>
 </html>
-<%@ include file="../layout/footer.jsp" %>

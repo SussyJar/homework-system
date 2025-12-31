@@ -68,6 +68,10 @@ CREATE TABLE courses_users (
     FOREIGN KEY (course_id) REFERENCES courses(course_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
+DESCRIBE homework_reminders;
+SELECT * FROM courses_users WHERE user_id = 4;
+
+SELECT * FROM homework;
 
 SELECT * FROM courses_users;
 

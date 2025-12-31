@@ -76,16 +76,16 @@
                                         </c:choose>
                                     </td>
                                     <td class="text-end">
-                                        <c:if test="${hw.submissionStatus != 'submitted' && hw.submissionStatus != 'graded'}">
-                                            <a href="${pageContext.request.contextPath}/student/submit?courseId=${hw.courseId}&homeworkId=${hw.homeworkId}" class="btn btn-primary btn-sm me-2">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
-                                                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                                                    <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+                                        <a href="${pageContext.request.contextPath}/student/submissions?homeworkId=${hw.homeworkId}&courseId=${hw.courseId}"
+                                            class="btn btn-primary btn-sm me-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                                                    class="bi bi-eye" viewBox="0 0 16 16">
+                                                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8z"/>
+                                                    <path d="M8 5a3 3 0 1 0 0 6a3 3 0 0 0 0-6z"/>
                                                 </svg>
-                                                Submit
+                                                View
                                             </a>
-                                        </c:if>
-                                        <a href="${pageContext.request.contextPath}/student/set-reminder?homeworkId=${hw.homeworkId}&courseId=${hw.courseId}" class="btn btn-outline-secondary btn-sm">
+                                        <a href="${pageContext.request.contextPath}/student/set_reminder?homeworkId=${hw.homeworkId}&courseId=${hw.courseId}" class="btn btn-outline-secondary btn-sm">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
                                                 <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"/>
                                             </svg>

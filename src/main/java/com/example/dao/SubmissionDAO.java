@@ -316,4 +316,26 @@ public class SubmissionDAO {
 
         return null;
     }
+
+    public void updateGrade(int submissionId, int score, String feedback) {
+
+    String sql = """
+        UPDATE submissions
+        SET score = ?, feedback = ?
+        WHERE submission_id = ?
+    """;
+
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setInt(1, score);
+        ps.setString(2, feedback);
+        ps.setInt(3, submissionId);
+        ps.executeUpdate();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    }
+
 }

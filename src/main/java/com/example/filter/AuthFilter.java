@@ -12,61 +12,40 @@ import java.io.IOException;
  * AuthFilter - Filter untuk authentication dan role-based access control
  * Mengecek apakah user sudah login dan memiliki role yang sesuai untuk mengakses halaman
  */
-@WebFilter(filterName = "AuthFilter", urlPatterns = {"/student/*", "/teacher/*", "/admin/*"})
+@WebFilter(urlPatterns = {"/student/*", "/teacher/*", "/admin/*"})
 public class AuthFilter implements Filter {
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-    }
-
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+    public void doFilter(ServletRequest request, ServletResponse response,
+                         FilterChain chain)
             throws IOException, ServletException {
 
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse resp = (HttpServletResponse) response;
 
-        // Get session
-        HttpSession session = httpRequest.getSession(false);
-        User user = null;
-        if (session != null) {
-            user = (User) session.getAttribute("user");
-        }
+        HttpSession session = req.getSession(false);
+        User user = (session != null) ? (User) session.getAttribute("user") : null;
 
-        // Jika user belum login, redirect ke login
+        // BELUM LOGIN
         if (user == null) {
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/login.jsp");
+            resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }
 
-        // Ambil path yang diakses
-        String requestURI = httpRequest.getRequestURI();
-        String contextPath = httpRequest.getContextPath();
-        String path = requestURI.substring(contextPath.length());
+        String path = req.getRequestURI()
+                         .substring(req.getContextPath().length());
 
-        // Role-based access control
         String role = user.getRole();
-        boolean authorized = false;
-
-        if (path.startsWith("/student/") && "student".equals(role)) {
-            authorized = true;
-        } else if (path.startsWith("/teacher/") && "teacher".equals(role)) {
-            authorized = true;
-        } else if (path.startsWith("/admin/") && "admin".equals(role)) {
-            authorized = true;
-        }
+        boolean authorized =
+                (path.startsWith("/student") && "student".equals(role)) ||
+                (path.startsWith("/teacher") && "teacher".equals(role)) ||
+                (path.startsWith("/admin") && "admin".equals(role));
 
         if (!authorized) {
-            // User tidak memiliki akses, redirect ke halaman dashboard utama
-            httpResponse.sendRedirect(contextPath + "/dashboard");
+            resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }
 
-        // User authorized, lanjutkan request
         chain.doFilter(request, response);
-    }
-
-    @Override
-    public void destroy() {
     }
 }
